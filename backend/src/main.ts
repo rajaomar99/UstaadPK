@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import { connectDatabase } from './config/database';
+import authRoutes from './routes/auth.route';
+import userRoutes from './routes/user.route';
 
 // Load environment variables
 dotenv.config();
@@ -75,8 +77,8 @@ app.get('/api/v1', (_req, res) => {
 });
 
 // TODO: Mount route files here in subsequent sprints
-// app.use('/api/v1/auth', authRoutes);
-// app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/users', userRoutes);
 // app.use('/api/v1/tutors', tutorRoutes);
 // app.use('/api/v1/reviews', reviewRoutes);
 // app.use('/api/v1/upload', uploadRoutes);
