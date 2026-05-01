@@ -8,6 +8,9 @@ import { connectDatabase } from './config/database';
 import authRoutes from './routes/auth.route';
 import userRoutes from './routes/user.route';
 
+import dns from 'node:dns/promises';
+dns.setServers(['1.1.1.1', '8.8.8.8']); // Use Cloudflare and Google DNS
+
 // Load environment variables
 dotenv.config();
 

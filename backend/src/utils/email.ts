@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key_to_prevent_crash');
 const fromEmail = process.env.RESEND_FROM_EMAIL;
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
 

@@ -195,4 +195,39 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
     console.error('Reset password error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
+}
+
+export const login = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      res.status(400).json({ success: false, error: 'Email and password are required' });
+      return;
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+    const user = await User.findOne({ email: normalizedEmail });
+
+    if (!user) {
+      res.status(401).json({ success: false, error: 'Invalid email or password' });
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      res.status(401).json({ success: false, error: 'Invalid email or password' });
+      return;
+    }
+
+    if (!user.isEmailVerified) {
+      res.status(403).json({ success: false, error: 'Please verify your email before logging in' });
+      return;
+    }
+
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
 };
