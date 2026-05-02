@@ -225,7 +225,16 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    res.status(200).json({ success: true, data: user });
+    // Return only the fields NextAuth needs — never the full document
+    res.status(200).json({
+      success: true,
+      data: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      }
+    });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });

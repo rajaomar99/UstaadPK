@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { SignJWT } from 'jose';
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(8),
 });
 
@@ -47,39 +47,39 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   callbacks: {
     async jwt({ token, user }) {
-      // On sign in, user object is populated — copy fields into JWT
+      // Only runs on sign-in: copy user fields into the JWT and create the raw token
       if (user) {
-        token.sub  = user.id;
+        token.sub = user.id;
         (token as any).role = (user as any).role;
         token.name = user.name;
         token.email = user.email;
+
+        // Create a raw JWT signed with AUTH_SECRET — Express uses this to verify API requests.
+        // We only do this ONCE at login and store it in the token. Subsequent requests reuse it.
+        // Using 'jose' because 'jsonwebtoken' is not Edge-runtime compatible.
+        const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
+        (token as any).raw = await new SignJWT({
+          id: user.id,
+          email: user.email,
+          role: (user as any).role,
+          name: user.name,
+        })
+          .setProtectedHeader({ alg: 'HS256' })
+          .setIssuedAt()
+          .setExpirationTime('7d')
+          .sign(secret);
       }
-      
-      // Store a raw JWT string signed with AUTH_SECRET so the Express backend can verify it
-      // Using 'jose' instead of 'jsonwebtoken' because 'jsonwebtoken' is not compatible with Next.js Edge runtime
-      const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
-      const rawToken = await new SignJWT({ 
-        id: token.sub, 
-        email: token.email, 
-        role: (token as any).role, 
-        name: token.name 
-      })
-        .setProtectedHeader({ alg: 'HS256' })
-        .setIssuedAt()
-        .setExpirationTime('7d')
-        .sign(secret);
-        
-      (token as any).raw = rawToken;
-      
+
       return token;
     },
+
     async session({ session, token }) {
       if (session.user) {
         session.user.id          = token.sub as string;
-        session.user.role        = (token as any).role as string;
+        session.user.role        = token.role as string;
         session.user.name        = token.name as string;
       }
-      session.accessToken      = (token as any).raw as string;   // raw JWT string for Express calls
+      session.accessToken      = token.raw as string;   // raw JWT string for Express calls
       return session;
     },
   },

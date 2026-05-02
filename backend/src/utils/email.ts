@@ -4,8 +4,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key_to_prevent_crash');
-const fromEmail = process.env.RESEND_FROM_EMAIL;
+const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
+
+if (!process.env.RESEND_FROM_EMAIL) {
+  console.warn('RESEND_FROM_EMAIL not set - using default onboarding@resend.dev');
+}
 
 export const sendVerificationEmail = async (to: string, name: string, token: string) => {
   const verifyLink = `${clientUrl}/verify-email?token=${token}`;
