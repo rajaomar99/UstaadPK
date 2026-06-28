@@ -50,7 +50,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // Only runs on sign-in: copy user fields into the JWT and create the raw token
       if (user) {
         token.sub = user.id;
-        (token as any).role = (user as any).role;
+        token.role = (user as any).role;
         token.name = user.name;
         token.email = user.email;
 
@@ -58,7 +58,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // We only do this ONCE at login and store it in the token. Subsequent requests reuse it.
         // Using 'jose' because 'jsonwebtoken' is not Edge-runtime compatible.
         const secret = new TextEncoder().encode(process.env.AUTH_SECRET);
-        (token as any).raw = await new SignJWT({
+        token.raw = await new SignJWT({
           id: user.id,
           email: user.email,
           role: (user as any).role,
@@ -66,7 +66,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         })
           .setProtectedHeader({ alg: 'HS256' })
           .setIssuedAt()
-          .setExpirationTime('7d')
+          .setExpirationTime('30d')
           .sign(secret);
       }
 

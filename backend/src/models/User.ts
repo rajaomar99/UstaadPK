@@ -1,12 +1,12 @@
 // backend/src/models/User.ts
-import { Schema, Document, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-export interface IUserDocument extends Document {
+export interface IUser {
   email: string;
   name: string;
   password: string;           // bcrypt hashed
   phone?: string;
-  role: 'student' | 'tutor' | 'pending';
+  role: 'student' | 'tutor';
   city?: string;
   profilePhotoUrl?: string;
   isEmailVerified: boolean;
@@ -14,21 +14,21 @@ export interface IUserDocument extends Document {
   emailVerificationExpiry?: Date;
   passwordResetToken?: string;
   passwordResetExpiry?: Date;
-  isOnboarded: boolean;
+
   createdAt: Date;
   updatedAt: Date;
 }
 
-const UserSchema = new Schema<IUserDocument>({
+const UserSchema = new Schema<IUser>({
   email:                    { type: String, required: true, unique: true, lowercase: true, trim: true },
   name:                     { type: String, required: true, trim: true },
   password:                 { type: String, required: true },          // never returned in API responses
   phone:                    { type: String, default: null },
-  role:                     { type: String, enum: ['student', 'tutor', 'pending'], default: 'pending' },
+  role:                     { type: String, enum: ['student', 'tutor'], required: true },
   city:                     { type: String, default: null },
   profilePhotoUrl:          { type: String, default: null },
   isEmailVerified:          { type: Boolean, default: false },
-  isOnboarded:              { type: Boolean, default: false },
+
   emailVerificationToken:   { type: String, default: null, select: false },
   emailVerificationExpiry:  { type: Date,   default: null, select: false },
   passwordResetToken:       { type: String, default: null, select: false },
@@ -44,4 +44,4 @@ UserSchema.set('toJSON', {
   }
 });
 
-export const User = model<IUserDocument>('User', UserSchema);
+export const User = model<IUser>('User', UserSchema);

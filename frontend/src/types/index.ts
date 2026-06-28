@@ -8,11 +8,11 @@ export interface IUser {
   name: string;
   email: string;
   phone?: string;
-  role: "student" | "tutor" | "pending";
+  role: "student" | "tutor";
   city?: string;
   profilePhoto?: string;
   isEmailVerified: boolean;
-  isOnboarded: boolean;
+
   createdAt: string;
   updatedAt: string;
 }

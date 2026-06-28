@@ -3,27 +3,11 @@ import bcrypt from 'bcryptjs';
 import { User } from '../models/User';
 import { generateToken, hashToken } from '../utils/token';
 import { sendVerificationEmail, sendPasswordResetEmail } from '../utils/email';
+import { LoginDto, RegisterDto, VerifyEmailDto, ForgotPasswordDto, ResetPasswordDto } from '../schemas/auth.schema';
 
 export const registerNewUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, name, password, role } = req.body;
-
-    // Validate inputs
-    if (!email || !name || !password || !role) {
-      res.status(400).json({ success: false, error: 'Missing required fields' });
-      return;
-    }
-
-    if (password.length < 8) {
-      res.status(400).json({ success: false, error: 'Password must be at least 8 characters' });
-      return;
-    }
-
-    if (!['student', 'tutor'].includes(role)) {
-      res.status(400).json({ success: false, error: 'Invalid role. Must be student or tutor.' });
-      return;
-    }
-
+    const { email, name, password, role } = req.body as RegisterDto;
     const normalizedEmail = email.toLowerCase().trim();
 
     // Check if email already exists
@@ -80,7 +64,7 @@ export const registerNewUser = async (req: Request, res: Response): Promise<void
 
 export const verifyEmail = async (req: Request, res: Response): Promise<void> => {
   try {
-    const token = req.body.token || req.query.token;
+    const { token } = req.body as VerifyEmailDto;
 
     if (!token || typeof token !== 'string') {
       res.status(400).json({ success: false, error: 'Token is required' });
@@ -114,13 +98,7 @@ export const verifyEmail = async (req: Request, res: Response): Promise<void> =>
 
 export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email } = req.body;
-
-    if (!email) {
-      res.status(400).json({ success: false, error: 'Email is required' });
-      return;
-    }
-
+    const { email } = req.body as ForgotPasswordDto;
     const normalizedEmail = email.toLowerCase().trim();
     const user = await User.findOne({ email: normalizedEmail });
 
@@ -157,18 +135,7 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
 
 export const resetPassword = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { token, newPassword } = req.body;
-
-    if (!token || !newPassword) {
-      res.status(400).json({ success: false, error: 'Token and new password are required' });
-      return;
-    }
-
-    if (newPassword.length < 8) {
-      res.status(400).json({ success: false, error: 'Password must be at least 8 characters' });
-      return;
-    }
-
+    const { token, newPassword } = req.body as ResetPasswordDto;
     const hashedResetToken = hashToken(token);
 
     const user = await User.findOne({
@@ -199,13 +166,7 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      res.status(400).json({ success: false, error: 'Email and password are required' });
-      return;
-    }
-
+    const { email, password } = req.body as LoginDto;
     const normalizedEmail = email.toLowerCase().trim();
     const user = await User.findOne({ email: normalizedEmail });
 

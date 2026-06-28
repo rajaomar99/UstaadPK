@@ -1,6 +1,8 @@
 import { Router } from 'express';
-import { getCurrentUser, updateCurrentUser, onboardUser } from '../controllers/user.controller';
+import { getCurrentUser, updateCurrentUser } from '../controllers/user.controller';
 import { requireAuth } from '../middleware/auth';
+import { validate } from '../middleware/validate';
+import { updateUserSchema } from '../schemas/user.schema';
 
 const router = Router();
 
@@ -8,7 +10,6 @@ const router = Router();
 router.use(requireAuth);
 
 router.get('/me', getCurrentUser);
-router.patch('/me', updateCurrentUser);
-router.post('/onboarding', onboardUser);
+router.patch('/me', validate({ body: updateUserSchema }), updateCurrentUser);
 
 export default router;

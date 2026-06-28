@@ -9,7 +9,12 @@
     "start": "node dist/main.js",
     "test": "echo \"No tests yet\" && exit 0"
   },
-  "keywords": ["ustaad", "tutor", "marketplace", "pakistan"],
+  "keywords": [
+    "ustaad",
+    "tutor",
+    "marketplace",
+    "pakistan"
+  ],
   "author": "Raja",
   "license": "ISC",
   "dependencies": {
@@ -24,7 +29,8 @@
     "mongoose": "^9.5.0",
     "morgan": "^1.10.1",
     "multer": "^2.1.1",
-    "resend": "^6.12.2"
+    "resend": "^6.12.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",

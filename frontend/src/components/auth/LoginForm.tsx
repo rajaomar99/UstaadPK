@@ -12,13 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Loader2, Mail, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
-
-const loginSchema = z.object({
-  email: z.email('Please enter a valid email address'),
-  password: z.string().min(1, 'Password is required'),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { loginSchema, type LoginFormValues } from '@/schemas/auth.schema';
 
 export default function LoginForm() {
   const router = useRouter();

@@ -6,7 +6,7 @@ export default auth((req) => {
   const pathname = req.nextUrl.pathname;
   
   const isAuthPage = pathname.startsWith('/login') || pathname.startsWith('/register') || pathname.startsWith('/verify-email') || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password');
-  const isProtectedRoute = pathname.startsWith('/dashboard') || pathname.startsWith('/onboarding');
+  const isProtectedRoute = pathname.startsWith('/dashboard');
 
   // Redirect logged-in users away from auth pages to dashboard
   if (isAuthPage && isLoggedIn) {

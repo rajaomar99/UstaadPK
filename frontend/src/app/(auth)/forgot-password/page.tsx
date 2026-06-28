@@ -3,19 +3,13 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, Mail, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
-
-const forgotPasswordSchema = z.object({
-  email: z.email('Please enter a valid email address'),
-});
-
-type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
+import { forgotPasswordSchema, type ForgotPasswordValues } from '@/schemas/auth.schema';
 
 export default function ForgotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false);

@@ -3,7 +3,6 @@
 import { useState, Suspense } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,16 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Loader2, Lock, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
-
-const resetPasswordSchema = z.object({
-  newPassword: z.string().min(8, 'Password must be at least 8 characters'),
-  confirmPassword: z.string().min(8, 'Please confirm your password'),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
-
-type ResetPasswordValues = z.infer<typeof resetPasswordSchema>;
+import { resetPasswordSchema, type ResetPasswordValues } from '@/schemas/auth.schema';
 
 function ResetPasswordContent() {
   const searchParams = useSearchParams();

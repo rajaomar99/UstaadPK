@@ -114,13 +114,13 @@ const startServer = async () => {
   try {
     await connectDatabase();
     app.listen(PORT, () => {
-      console.log(`\n🚀 UstaadPK API running on http://localhost:${PORT}`);
-      console.log(`📍 Health check: http://localhost:${PORT}/health`);
-      console.log(`📍 API root: http://localhost:${PORT}/api/v1`);
-      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}\n`);
+      console.log(`\nUstaadPK API running on http://localhost:${PORT}`);
+      console.log(`Health check: http://localhost:${PORT}/health`);
+      console.log(`API root: http://localhost:${PORT}/api/v1`);
+      console.log(`Environment: ${process.env.NODE_ENV || 'development'}\n`);
     });
   } catch (error) {
-    console.error('❌ Failed to start server:', error);
+    console.error('Failed to start server:', error);
     process.exit(1);
   }
 };

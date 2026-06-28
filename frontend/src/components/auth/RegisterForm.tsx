@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,15 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Loader2, Mail, Lock, User, GraduationCap, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
-
-const registerSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.email('Please enter a valid email address'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  role: z.enum(['student', 'tutor'], { message: 'Please select an account type' }),
-});
-
-type RegisterFormValues = z.infer<typeof registerSchema>;
+import { registerSchema, type RegisterFormValues } from '@/schemas/auth.schema';
 
 export default function RegisterForm() {
   const router = useRouter();
