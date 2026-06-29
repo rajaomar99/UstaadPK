@@ -191,12 +191,124 @@ export const CITIES = [
   "Abbottabad",
   "Bahawalpur",
   "Sargodha",
+  "Jhang",
+  "Sheikhupura",
+  "Gujrat",
   "Sukkur",
+  "Sahiwal",
   "Larkana",
   "Other",
 ] as const;
 
 export type City = (typeof CITIES)[number];
+
+
+export const AREAS_BY_CITY: Record<string, string[]> = {
+  Lahore: [
+    // Central
+    "Gulberg", "Model Town", "Garden Town", "Shadman", "Mozang", "Ichhra",
+    "Cavalry Ground", "Cantt", "Muslim Town", "Mall Road / Anarkali",
+    "New Garden Town", "Garhi Shahu",
+    // North
+    "Shahdara", "Shalimar Town", "Ravi Road", "Badami Bagh",
+    "Old City / Walled City", "Samanabad", "Gulshan-e-Ravi", "Green Town",
+    // East / Central-East
+    "Allama Iqbal Town", "Iqbal Town", "Faisal Town", "Mustafa Town",
+    // South-East
+    "Johar Town", "Wapda Town", "Punjab University Society",
+    "Paragon City", "Lake City", "Valencia Town",
+    // DHA Belt
+    "DHA Phase 1", "DHA Phase 2", "DHA Phase 3", "DHA Phase 4",
+    "DHA Phase 5", "DHA Phase 6", "DHA Phase 7", "DHA Phase 8", "DHA Phase 9",
+    "Askari", "Bahria Town",
+    // West / South-West
+    "Township", "Kot Lakhpat", "EME Colony",
+    // South
+    "Thokar Niaz Baig", "Wahdat Road", "Raiwind Road",
+  ],
+
+  Karachi: [
+    // Defence / Clifton (South)
+    "Clifton", "Bath Island", "Zamzama", "Badar Commercial",
+    "DHA Phase 1", "DHA Phase 2", "DHA Phase 3", "DHA Phase 4",
+    "DHA Phase 5", "DHA Phase 6", "DHA Phase 7", "DHA Phase 8",
+    // Central
+    "PECHS", "Bahadurabad", "Sindhi Muslim Society", "Tariq Road",
+    "Shahrah-e-Faisal", "PIB Colony", "Rashid Minhas Road",
+    // Gulshan / Johar Belt
+    "Gulshan-e-Iqbal", "Gulistan-e-Johar", "Safoora Goth", "Scheme 33",
+    "University Road", "Stadium Road",
+    // North Karachi
+    "North Nazimabad", "Federal B Area", "Nazimabad", "Karimabad",
+    "Liaquatabad", "Paposh Nagar", "New Karachi", "Surjani Town",
+    "Buffer Zone",
+    // Old / Saddar
+    "Saddar", "Garden", "Frere Town", "Lyari", "Keamari", "Lines Area",
+    // East
+    "Malir", "Malir Cantt", "Shah Faisal Colony", "Model Colony",
+    "Landhi", "Korangi",
+    // West
+    "Orangi Town", "Baldia Town", "SITE Area", "Gulberg Town",
+  ],
+
+  Islamabad: [
+    // F Sectors
+    "F-6", "F-7", "F-8", "F-10", "F-11",
+    // G Sectors
+    "G-6", "G-7", "G-8", "G-9", "G-10", "G-11", "G-13", "G-14", "G-15",
+    // H Sectors
+    "H-8", "H-9", "H-10", "H-11", "H-13",
+    // I Sectors
+    "I-8", "I-9", "I-10",
+    // E Sectors
+    "E-7", "E-8", "E-9", "E-11",
+    // D / B Sectors
+    "D-12", "D-17", "B-17",
+    // Housing Schemes
+    "Bahria Town Islamabad", "DHA Islamabad", "Park Enclave",
+    "Faisal Hills", "Top City",
+    // Older / Other Areas
+    "Pakistan Town", "Ghori Town", "Korang Town",
+    "Bani Gala", "Saidpur", "Margalla Town",
+  ],
+
+  Rawalpindi: [
+    // Central / Saddar
+    "Saddar", "Cantt", "Liaquat Bagh", "Raja Bazaar",
+    // Main Housing Schemes
+    "Satellite Town", "Westridge", "Gulraiz Housing Scheme",
+    "Chaklala Scheme 3", "Allama Iqbal Colony",
+    // Askari
+    "Askari 1", "Askari 2", "Askari 10", "Askari 14",
+    // Bahria Town Rawalpindi
+    "Bahria Town Phase 1", "Bahria Town Phase 2", "Bahria Town Phase 4",
+    "Bahria Town Phase 7", "Bahria Town Phase 8",
+    // Old / Inner Areas
+    "Pir Wadhai", "Dheri Hassanabad", "Lal Kurti",
+    "Tench Bhata", "Gulshar Colony",
+    // Road Corridors
+    "Murree Road", "Peshawar Road", "Adiala Road",
+    "Airport Road", "Haider Road",
+    // Outskirts
+    "Rawat", "Taxila", "Chakri Road",
+  ],
+
+  Faisalabad: [
+    // Central / Commercial
+    "Clock Tower", "Civil Lines", "Kotwali Road", "Railway Road",
+    // Major Colonies
+    "Peoples Colony", "Gulberg", "Madina Town", "Millat Town",
+    "Batala Colony", "Ghulam Muhammad Abad", "Jinnah Colony",
+    "Samanabad", "National Town", "Mansoorabad",
+    "Usman Town", "Nishat Colony", "Lyallpur Town",
+    // Road Corridors
+    "Susan Road", "Canal Road", "Sitiana Road",
+    "Sargodha Road", "Sammundri Road", "Jhang Road", "Dijkot Road",
+    // Nearby Towns
+    "Chak Jhumra", "Tandlianwala",
+  ],
+};
+
 
 // ─── Teaching Modes ───────────────────────────────────────────────────────────
 
@@ -222,6 +334,5 @@ export const WHATSAPP_MESSAGE =
 
 export const RATE_RANGE = {
   MIN: 1000,
-  MAX: 50000,
   STEP: 500,
 } as const;

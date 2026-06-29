@@ -4,17 +4,13 @@ import { Schema, model } from 'mongoose';
 export interface IUser {
   email: string;
   name: string;
-  password: string;           // bcrypt hashed
-  phone?: string;
+  password: string;
   role: 'student' | 'tutor';
-  city?: string;
-  profilePhotoUrl?: string;
   isEmailVerified: boolean;
   emailVerificationToken?: string;
   emailVerificationExpiry?: Date;
   passwordResetToken?: string;
   passwordResetExpiry?: Date;
-
   createdAt: Date;
   updatedAt: Date;
 }
@@ -23,10 +19,7 @@ const UserSchema = new Schema<IUser>({
   email:                    { type: String, required: true, unique: true, lowercase: true, trim: true },
   name:                     { type: String, required: true, trim: true },
   password:                 { type: String, required: true },          // never returned in API responses
-  phone:                    { type: String, default: null },
   role:                     { type: String, enum: ['student', 'tutor'], required: true },
-  city:                     { type: String, default: null },
-  profilePhotoUrl:          { type: String, default: null },
   isEmailVerified:          { type: Boolean, default: false },
 
   emailVerificationToken:   { type: String, default: null, select: false },

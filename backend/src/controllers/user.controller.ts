@@ -32,12 +32,9 @@ export const updateCurrentUser = async (req: AuthRequest, res: Response): Promis
       return;
     }
 
-    const { name, phone, city } = req.body as UpdateUserDto;
+    const { name } = req.body as UpdateUserDto;
 
-    const updateFields: Record<string, unknown> = {};
-    if (name !== undefined) updateFields.name = name;
-    if (phone !== undefined) updateFields.phone = phone;
-    if (city !== undefined) updateFields.city = city;
+    const updateFields: Record<string, unknown> = { name };
 
     const user = await User.findByIdAndUpdate(
       userId,

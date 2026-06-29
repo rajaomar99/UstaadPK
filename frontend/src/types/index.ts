@@ -7,12 +7,8 @@ export interface IUser {
   _id: string;
   name: string;
   email: string;
-  phone?: string;
   role: "student" | "tutor";
-  city?: string;
-  profilePhoto?: string;
   isEmailVerified: boolean;
-
   createdAt: string;
   updatedAt: string;
 }
@@ -46,7 +42,6 @@ export interface ITutorProfile {
   subjects: ISubjectEntry[];
   teachingModes: string[];
   monthlyRateMin: number;
-  monthlyRateMax: number;
   trialClassAvailable: boolean;
   languagesOfInstruction: string[];
   onlineAvailable: boolean;
